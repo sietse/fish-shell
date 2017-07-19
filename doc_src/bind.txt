@@ -16,6 +16,24 @@ bind (-e | --erase) [(-M | --mode) MODE]
 
 `bind` adds a binding for the specified key sequence to the specified command.
 
+The following parameters are available.
+
+- `-a` or `--all` List all current key bindings. `-a` or `--all` can also be added to other flags to modify their behaviour; see below.
+
+- `-k` or `--key` Specify a key name, such as 'left' or 'backspace' instead of a character sequence
+
+- `-K` or `--key-names` Display a list of bound key names. Adding `-a` or `--all` displays a list of all key names. The bindings of the keys are not displayed.
+
+- `-f` or `--function-names` Display a list of available input functions
+
+- `-L` or `--list-modes` Display a list of defined bind modes
+
+- `-M MODE` or `--mode MODE` Specify a bind mode that the bind is used in. Defaults to "default"
+
+- `-m NEW_MODE` or `--sets-mode NEW_MODE` Change the current mode to `NEW_MODE` after this binding is executed
+
+- `-e SEQUENCE` or `--erase SEQUENCE` Erase the binding with the given sequence and mode (if you specify `--mode MODE`) instead of defining a new one. Multiple sequences can be specified with this flag. The combination `--erase --all` erases all bindings in all modes. The combination `--erase --all --mode MODE` erases all bindings in the given mode.
+
 SEQUENCE is the character sequence to bind to. These should be written as <a href="index.html#escapes">fish escape sequences</a>. For example, because pressing the Alt key and another character sends that character prefixed with an escape character, Alt-based key bindings can be written using the `\e` escape. For example, @key{Alt,w} can be written as `\ew`. The control character can be written in much the same way using the `\c` escape, for example @key{Control,X} (^X) can be written as `\cx`. Note that Alt-based key bindings are case sensitive and Control-based key bindings are not. This is a constraint of text-based terminals, not `fish`.
 
 The default key binding can be set by specifying a `SEQUENCE` of the empty string (that is, ```''``` ). It will be used whenever no other binding matches. For most key bindings, it makes sense to use the `self-insert` function (i.e. ```bind '' self-insert```) as the default keybinding. This will insert any keystrokes not specifically bound to into the editor. Non- printable characters are ignored by the editor, so this will not result in control sequences being printable.
@@ -35,24 +53,6 @@ If no `SEQUENCE` is provided, all bindings (or just the bindings in the specifie
 Key bindings are not saved between sessions by default. **Bare `bind` statements in <a href="index.html#initialization">config.fish</a> won't have any effect because it is sourced before the default keybindings are setup.** To save custom keybindings, put the `bind` statements into a function called `fish_user_key_bindings`, which will be <a href="tutorial.html#tut_autoload">autoloaded</a>.
 
 Key bindings may use "modes", which mimics Vi's modal input behavior. The default mode is "default", and every bind applies to a single mode. The mode can be viewed/changed with the `$fish_bind_mode` variable.
-
-The following parameters are available:
-
-- `-k` or `--key` Specify a key name, such as 'left' or 'backspace' instead of a character sequence
-
-- `-K` or `--key-names` Display a list of available key names. Specifying `-a` or `--all` includes keys that don't have a known mapping
-
-- `-f` or `--function-names` Display a list of available input functions
-
-- `-L` or `--list-modes` Display a list of defined bind modes
-
-- `-M MODE` or `--mode MODE` Specify a bind mode that the bind is used in. Defaults to "default"
-
-- `-m NEW_MODE` or `--sets-mode NEW_MODE` Change the current mode to `NEW_MODE` after this binding is executed
-
-- `-e` or `--erase` Erase the binding with the given sequence and mode instead of defining a new one. Multiple sequences can be specified with this flag. Specifying `-a` or `--all` with `-M` or `--mode` erases all binds in the given mode regardless of sequence. Specifying `-a` or `--all` without `-M` or `--mode` erases all binds in all modes regardless of sequence.
-
-- `-a` or `--all` See `--erase` and `--key-names`
 
 The following special input functions are available:
 
